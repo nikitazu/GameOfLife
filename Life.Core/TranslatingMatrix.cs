@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Life.Core
 {
-    public class TranslatingMatrix<T>
+    public class TranslatingMatrix<T> : IField<T>
     {
         readonly List<List<T>> _matrix;
         readonly int _size;

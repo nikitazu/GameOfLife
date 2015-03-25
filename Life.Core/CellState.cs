@@ -8,7 +8,7 @@ namespace Life.Core
 {
     public enum CellState
     {
-        Live,
-        Dead
+        Dead,
+        Live
     }
 }

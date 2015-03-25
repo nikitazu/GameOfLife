@@ -42,8 +42,10 @@
     <Compile Include="ClassicRules.cs" />
     <Compile Include="CellState.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="IField.cs" />
     <Compile Include="IRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThorusField.cs" />
     <Compile Include="TranslatingMatrix.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
