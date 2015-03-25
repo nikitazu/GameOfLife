@@ -5,12 +5,12 @@ namespace Life.Core.Tests
     [TestClass]
     public class GameTests
     {
-        private Game _game;
+        private Game<CellState> _game;
 
         [TestInitialize]
         public void Init()
         {
-            _game = new Game(new ClassicRules());
+            _game = new ClassicGame();
         }
 
         [TestMethod]

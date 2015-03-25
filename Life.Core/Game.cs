@@ -1,16 +1,16 @@
 ﻿
 namespace Life.Core
 {
-    public class Game
+    public class Game<T>
     {
-        readonly IRules<CellState> _rules;
+        readonly IRules<T> _rules;
 
-        public Game(IRules<CellState> rules)
+        public Game(IRules<T> rules)
         {
             _rules = rules;
         }
 
-        public void Step(IField<CellState> currentState, IField<CellState> nextState)
+        public void Step(IField<T> currentState, IField<T> nextState)
         {
             currentState.ForEach((colId, rowId, currentValue) =>
             {

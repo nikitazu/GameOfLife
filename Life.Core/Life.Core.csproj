@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassicGame.cs" />
     <Compile Include="ClassicRules.cs" />
     <Compile Include="CellState.cs" />
     <Compile Include="Game.cs" />
