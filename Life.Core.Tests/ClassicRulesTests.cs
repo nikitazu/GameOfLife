@@ -9,14 +9,14 @@ namespace Life.Core.Tests
     //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
     [TestClass]
-    public class CellRulesTests
+    public class ClassicRulesTests
     {
-        private CellRules _rules;
+        private IRules _rules;
 
         [TestInitialize]
         public void Init()
         {
-            _rules = new CellRules();
+            _rules = new ClassicRules();
         }
 
         [TestMethod]

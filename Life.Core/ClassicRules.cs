@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Life.Core
 {
-    public class CellRules
+    public class ClassicRules : IRules
     {
         public CellState Evaluate(CellState state, int population)
         {

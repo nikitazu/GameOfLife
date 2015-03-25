@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="GameTests.cs" />
     <Compile Include="TranslatingMatrixTests.cs" />
-    <Compile Include="CellRulesTests.cs" />
+    <Compile Include="ClassicRulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
