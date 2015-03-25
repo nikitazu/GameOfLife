@@ -22,7 +22,7 @@ namespace Life.Core.Tests
         [TestMethod]
         public void TestStep()
         {
-            var state0 = new TranslatingMatrix<int>(new int[5, 5]
+            IField<int> state0 = new TranslatingMatrix<int>(new int[5, 5]
             { 
                 { 0, 0, 0, 0, 0 }, 
                 { 0, 0, 1, 0, 0 }, 
@@ -31,7 +31,7 @@ namespace Life.Core.Tests
                 { 0, 0, 0, 0, 0 },
             });
 
-            var state1 = new TranslatingMatrix<int>(new int[5, 5]
+            IField<int> state1 = new TranslatingMatrix<int>(new int[5, 5]
             { 
                 { 0, 0, 0, 0, 0 }, 
                 { 0, 1, 1, 1, 0 }, 
@@ -40,7 +40,7 @@ namespace Life.Core.Tests
                 { 0, 0, 0, 0, 0 },
             });
 
-            var actualState1 = new TranslatingMatrix<int>(new int[5, 5]
+            IField<int> actualState1 = new TranslatingMatrix<int>(new int[5, 5]
             { 
                 { 0, 0, 0, 0, 0 }, 
                 { 0, 0, 0, 0, 0 }, 
@@ -53,7 +53,7 @@ namespace Life.Core.Tests
             AssertGameState(state1, actualState1);
         }
 
-        void AssertGameState(TranslatingMatrix<int> expectedState, TranslatingMatrix<int> actualState)
+        void AssertGameState(IField<int> expectedState, IField<int> actualState)
         {
             expectedState.ForEach((i, j, expectedValue) =>
             {

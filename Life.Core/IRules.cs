@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Life.Core
 {
-    public interface IRules
+    public interface IRules<T>
     {
-        CellState Evaluate(CellState state, int population);
+        CellState EvaluateCellStateFromPopulation(CellState state, int population);
+
+        int EvaluatePopulationForCoordinates(IField<T> field, int i, int j);
     }
 }

@@ -8,22 +8,20 @@ namespace Life.Core
 {
     public class Game
     {
-        readonly IRules _rules;
+        readonly IRules<int> _rules;
 
-        public Game(IRules rules)
+        public Game(IRules<int> rules)
         {
             _rules = rules;
         }
 
-        public void Step(TranslatingMatrix<int> currentState, TranslatingMatrix<int> nextState)
+        public void Step(IField<int> currentState, IField<int> nextState)
         {
             currentState.ForEach((colId, rowId, currentValue) =>
             {
-                int population = 0;
-                currentState.ForEachAround(colId, rowId, (i, j, nearValue) => population += nearValue);
-
+                int population = _rules.EvaluatePopulationForCoordinates(currentState, colId, rowId);
                 var currentCellState = currentValue == 0 ? CellState.Dead : CellState.Live;
-                var nextCellState = _rules.Evaluate(currentCellState, population);
+                var nextCellState = _rules.EvaluateCellStateFromPopulation(currentCellState, population);
                 var nextValue = nextCellState == CellState.Dead ? 0 : 1;
                 nextState[colId, rowId] = nextValue;
             });
