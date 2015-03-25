@@ -1,17 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Life.Core.Tests
 {
-    //Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-    //Any live cell with two or three live neighbours lives on to the next generation.
-    //Any live cell with more than three live neighbours dies, as if by overcrowding.
-    //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-
     [TestClass]
     public class ClassicRulesTests
     {
-        private IRules<int> _rules;
+        private IRules<CellState> _rules;
 
         [TestInitialize]
         public void Init()
@@ -51,7 +45,7 @@ namespace Life.Core.Tests
         [TestMethod]
         public void TestEvaluatePopulationForCoordinates()
         {
-            IField<int> field = new TranslatingMatrix<int>(new int[6, 6]
+            IField<CellState> field = new ThorusField(new int[6, 6]
             { 
                 { 0, 0, 0, 0, 0, 0 }, 
                 { 0, 1, 1, 1, 0, 0 }, 

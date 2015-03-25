@@ -1,13 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Life.Core.Tests
 {
-    //Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-    //Any live cell with two or three live neighbours lives on to the next generation.
-    //Any live cell with more than three live neighbours dies, as if by overcrowding.
-    //Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-
     [TestClass]
     public class GameTests
     {
@@ -22,7 +16,7 @@ namespace Life.Core.Tests
         [TestMethod]
         public void TestStep()
         {
-            IField<int> state0 = new TranslatingMatrix<int>(new int[5, 5]
+            IField<CellState> state0 = new ThorusField(new int[5, 5]
             { 
                 { 0, 0, 0, 0, 0 }, 
                 { 0, 0, 1, 0, 0 }, 
@@ -31,7 +25,7 @@ namespace Life.Core.Tests
                 { 0, 0, 0, 0, 0 },
             });
 
-            IField<int> state1 = new TranslatingMatrix<int>(new int[5, 5]
+            IField<CellState> state1 = new ThorusField(new int[5, 5]
             { 
                 { 0, 0, 0, 0, 0 }, 
                 { 0, 1, 1, 1, 0 }, 
@@ -40,7 +34,7 @@ namespace Life.Core.Tests
                 { 0, 0, 0, 0, 0 },
             });
 
-            IField<int> actualState1 = new TranslatingMatrix<int>(new int[5, 5]
+            IField<CellState> actualState1 = new ThorusField(new int[5, 5]
             { 
                 { 0, 0, 0, 0, 0 }, 
                 { 0, 0, 0, 0, 0 }, 
@@ -53,7 +47,7 @@ namespace Life.Core.Tests
             AssertGameState(state1, actualState1);
         }
 
-        void AssertGameState(IField<int> expectedState, IField<int> actualState)
+        void AssertGameState(IField<CellState> expectedState, IField<CellState> actualState)
         {
             expectedState.ForEach((i, j, expectedValue) =>
             {
