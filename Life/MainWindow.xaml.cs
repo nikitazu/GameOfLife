@@ -24,14 +24,8 @@ namespace Life
 
             for (int i = 0; i < _component.Config.FieldSize; i++)
             {
-                var myLine = VerticalLine(i*10);
-                Screen.Children.Add(myLine);
-            }
-
-            for (int i = 0; i < _component.Config.FieldSize; i++)
-            {
-                var myLine = HorizontalLine(i*10);
-                Screen.Children.Add(myLine);
+                Screen.Children.Add(VerticalLine(i * _component.Config.CellSize));
+                Screen.Children.Add(HorizontalLine(i * _component.Config.CellSize));
             }
 
             _component.PutRectanglesOn(Screen);

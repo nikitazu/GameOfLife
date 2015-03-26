@@ -53,12 +53,12 @@ namespace Life.Components
 
                 value = new Rectangle();
                 Screen.Children.Add(value);
-                Canvas.SetLeft(value, i * 10);
-                Canvas.SetTop(value, j * 10);
+                Canvas.SetLeft(value, i * Config.CellSize);
+                Canvas.SetTop(value, j * Config.CellSize);
                 value.Stroke = Brushes.DarkKhaki;
                 value.Fill = Brushes.DarkKhaki;
-                value.Width = 10;
-                value.Height = 10;
+                value.Width = Config.CellSize;
+                value.Height = Config.CellSize;
                 value.Visibility = Visibility.Hidden;
 
                 Rectangles[i, j] = value;
