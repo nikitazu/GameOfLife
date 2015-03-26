@@ -31,21 +31,31 @@ namespace Life.Components
             Rectangles = rectangles;
         }
 
-        public void AutoStep(Action<int, int, CellState> afterStepCallback)
+        internal void AutoStep(Action<int, int, CellState> afterStepCallback)
         {
             GameOfLife.Step(CurrentState, NextState);
             NextState.ForEach(afterStepCallback);
             SwapState();
         }
 
-        public void SwapState()
+        internal void SwapState()
         {
             var temp = CurrentState;
             CurrentState = NextState;
             NextState = temp;
         }
 
-        public void PutRectanglesOn(System.Windows.Controls.Canvas Screen)
+        internal void PutLinesOn(Canvas Screen)
+        {
+            for (int i = 0; i < Config.FieldSize; i++)
+            {
+                var index = i * Config.CellSize;
+                Screen.Children.Add(VerticalLine(index));
+                Screen.Children.Add(HorizontalLine(index));
+            }
+        }
+
+        internal void PutRectanglesOn(System.Windows.Controls.Canvas Screen)
         {
             Rectangles.ForEach((i, j, value) =>
             {
@@ -63,6 +73,31 @@ namespace Life.Components
 
                 Rectangles[i, j] = value;
             });
+        }
+
+        Line VerticalLine(int columnIndex)
+        {
+            return CreateLine(columnIndex, columnIndex, 0, Config.CellSize * Config.FieldSize);
+        }
+
+        Line HorizontalLine(int rowIndex)
+        {
+            return CreateLine(0, Config.CellSize * Config.FieldSize, rowIndex, rowIndex);
+        }
+
+        Line CreateLine(double x1, double x2, double y1, double y2)
+        {
+            return new Line
+            {
+                Stroke = Brushes.DarkBlue,
+                X1 = x1,
+                X2 = x2,
+                Y1 = y1,
+                Y2 = y2,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                StrokeThickness = .2,
+            };
         }
     }
 }

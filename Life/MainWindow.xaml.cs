@@ -2,8 +2,6 @@
 using Life.Core;
 using System;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Life
@@ -21,13 +19,7 @@ namespace Life
             InitializeComponent();
 
             _component = (Application.Current as App).GameComponent;
-
-            for (int i = 0; i < _component.Config.FieldSize; i++)
-            {
-                Screen.Children.Add(VerticalLine(i * _component.Config.CellSize));
-                Screen.Children.Add(HorizontalLine(i * _component.Config.CellSize));
-            }
-
+            _component.PutLinesOn(Screen);
             _component.PutRectanglesOn(Screen);
 
             EventHandler autoStep = (o, e) =>
@@ -46,8 +38,6 @@ namespace Life
             clicked = !clicked;
 
             _component.GameOfLife.Step(_component.CurrentState, _component.NextState);
-            // redraw
-
             _component.NextState.ForEach((i, j, value) =>
             {
                 ToggleRectangle(i, j, value == CellState.Live);
@@ -65,31 +55,5 @@ namespace Life
         {
             _component.Rectangles[columnIndex, rowIndex].Visibility = visible ? Visibility.Visible : Visibility.Hidden;
         }
-
-        Line VerticalLine(int columnIndex)
-        {
-            return CreateLine(columnIndex, columnIndex, 0, Screen.Height);
-        }
-
-        Line HorizontalLine(int rowIndex)
-        {
-            return CreateLine(0, Screen.Width, rowIndex, rowIndex);
-        }
-
-        Line CreateLine(double x1, double x2, double y1, double y2)
-        {
-            return new Line
-            {
-                Stroke = Brushes.DarkBlue,
-                X1 = x1,
-                X2 = x2,
-                Y1 = y1,
-                Y2 = y2,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                StrokeThickness = .2,
-            };
-        }
-
     }
 }
