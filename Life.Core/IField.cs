@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Life.Core
 {
@@ -11,5 +7,6 @@ namespace Life.Core
         T this[int x, int y] { get; set; }
         void ForEach(Action<int, int, T> handleCell);
         void ForEachAround(int i, int j, Action<int, int, T> handleCell);
+        IField<T> Copy();
     }
 }

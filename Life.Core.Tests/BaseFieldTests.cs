@@ -66,6 +66,14 @@ namespace Life.Core.Tests
             field5x5.ForEachAround(2, 2, (i, j, value) => Assert.AreEqual(GetSolidValue(), value));
         }
 
+        [TestMethod]
+        public void TestCopy()
+        {
+            var original5x5 = GetFieldFromMatrix5x5();
+            var copy5x5 = original5x5.Copy();
+            original5x5.ForEach((i, j, value) => AssertFieldValue(value, copy5x5, i, j));
+        }
+
         protected void AssertFieldAllValues(T expected, IField<T> field)
         {
             field.ForEach((i, j, value) => AssertFieldValue(expected, field, i, j));

@@ -1,7 +1,7 @@
-﻿using Life.Core;
+﻿using Life.Components;
+using Life.Core;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -13,61 +13,32 @@ namespace Life
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly ClassicGame _game = new ClassicGame();
-        readonly Random _random = new Random(123);
-        IField<CellState> _currentState = new ThorusField(80);
-        IField<CellState> _nextState = new ThorusField(80);
-        IField<Rectangle> _rectangles = new TranslatingMatrix<Rectangle>(80);
-
-        DispatcherTimer _timer;
-
+        readonly GameComponent _component;
+        readonly DispatcherTimer _timer;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            for (int i = 0; i < Screen.Width; i+=10)
+            _component = (Application.Current as App).GameComponent;
+
+            for (int i = 0; i < _component.Config.FieldSize; i++)
             {
-                var myLine = VerticalLine(i);
+                var myLine = VerticalLine(i*10);
                 Screen.Children.Add(myLine);
             }
 
-            for (int i = 0; i < Screen.Height; i += 10)
+            for (int i = 0; i < _component.Config.FieldSize; i++)
             {
-                var myLine = HorizontalLine(i);
+                var myLine = HorizontalLine(i*10);
                 Screen.Children.Add(myLine);
             }
 
-            _rectangles.ForEach((i, j, value) =>
-            {
-                _currentState[i, j] = _random.Next(3) == 0 ? CellState.Live : CellState.Dead;
-
-                value = new Rectangle();
-                Screen.Children.Add(value);
-                Canvas.SetLeft(value, i*10);
-                Canvas.SetTop(value, j*10);
-                value.Stroke = Brushes.DarkKhaki;
-                value.Fill = Brushes.DarkKhaki;
-                value.Width = 10;
-                value.Height = 10;
-                value.Visibility = Visibility.Hidden;
-                _rectangles[i, j] = value;
-            });
-
+            _component.PutRectanglesOn(Screen);
 
             EventHandler autoStep = (o, e) =>
             {
-                _game.Step(_currentState, _nextState);
-
-                _nextState.ForEach((i, j, value) =>
-                {
-                    ToggleRectangle(i, j, value == CellState.Live);
-                });
-
-                // redraw end
-                var temp = _currentState;
-                _currentState = _nextState;
-                _nextState = temp;
+                _component.AutoStep((i, j, value) => ToggleRectangle(i, j, value == CellState.Live));
             };
 
             _timer = new DispatcherTimer(TimeSpan.FromSeconds(.1), DispatcherPriority.Render, autoStep, Dispatcher);
@@ -80,18 +51,15 @@ namespace Life
             ToggleRectangle(0, 20, clicked);
             clicked = !clicked;
 
-            _game.Step(_currentState, _nextState);
+            _component.GameOfLife.Step(_component.CurrentState, _component.NextState);
             // redraw
 
-            _nextState.ForEach((i, j, value) =>
+            _component.NextState.ForEach((i, j, value) =>
             {
                 ToggleRectangle(i, j, value == CellState.Live);
             });
 
-            // redraw end
-            var temp = _currentState;
-            _currentState = _nextState;
-            _nextState = temp;
+            _component.SwapState();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -101,7 +69,7 @@ namespace Life
 
         void ToggleRectangle(int columnIndex, int rowIndex, bool visible)
         {
-            _rectangles[columnIndex, rowIndex].Visibility = visible ? Visibility.Visible : Visibility.Hidden;
+            _component.Rectangles[columnIndex, rowIndex].Visibility = visible ? Visibility.Visible : Visibility.Hidden;
         }
 
         Line VerticalLine(int columnIndex)

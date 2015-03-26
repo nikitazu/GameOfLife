@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Life.Core
 {
@@ -81,6 +78,13 @@ namespace Life.Core
 
             proc(i, j - 1, this[i, j - 1]);
             proc(i, j + 1, this[i, j + 1]);
+        }
+
+        public virtual IField<T> Copy()
+        {
+            var copy = new TranslatingMatrix<T>(_matrix.Count);
+            ForEach((i, j, value) => copy[i, j] = value);
+            return copy;
         }
     }
 }
