@@ -1,4 +1,5 @@
 ﻿using Life.Components.Configuration;
+using Life.Components.Drawing;
 using Life.Core;
 using System;
 using System.Windows;
@@ -11,58 +12,64 @@ namespace Life.Components
     public class GameComponent
     {
         readonly Random _random = new Random(123);
+        readonly Painter _painter;
+        readonly Game<CellState> _game;
+        readonly IField<Rectangle> _rectangles;
+
+        IField<CellState> _currentState;
+        IField<CellState> _nextState;
 
         public AppConfig Config { get; private set; }
-        public Game<CellState> GameOfLife { get; private set; }
-        public IField<CellState> CurrentState { get; private set; }
-        public IField<CellState> NextState { get; private set; }
-        public IField<Rectangle> Rectangles { get; private set; }
 
         public GameComponent(
             AppConfig config,
+            Painter painter,
             Game<CellState> gameOfLife,
-            IField<CellState> currentState,
-            IField<Rectangle> rectangles)
+            IField<Rectangle> rectangles,
+            IField<CellState> currentState)
         {
             Config = config;
-            GameOfLife = gameOfLife;
-            CurrentState = currentState;
-            NextState = currentState.Copy();
-            Rectangles = rectangles;
+
+            _painter = painter;
+            _game = gameOfLife;
+            _rectangles = rectangles;
+
+            _currentState = currentState;
+            _nextState = currentState.Copy();
         }
 
-        internal void AutoStep(Action<int, int, CellState> afterStepCallback)
+        internal void AutoStep()
         {
-            GameOfLife.Step(CurrentState, NextState);
-            NextState.ForEach(afterStepCallback);
+            _game.Step(_currentState, _nextState);
+            _nextState.ForEach((i, j, value) => ToggleRectangle(i, j, value == CellState.Live));
             SwapState();
         }
 
-        internal void SwapState()
+        internal void ManualStep()
         {
-            var temp = CurrentState;
-            CurrentState = NextState;
-            NextState = temp;
+            _game.Step(_currentState, _nextState);
+            _nextState.ForEach((i, j, value) => ToggleRectangle(i, j, value == CellState.Live));
+            SwapState();
         }
 
-        internal void PutLinesOn(Canvas Screen)
+        internal void PutLinesOn(Canvas screen)
         {
             for (int i = 0; i < Config.FieldSize; i++)
             {
                 var index = i * Config.CellSize;
-                Screen.Children.Add(VerticalLine(index));
-                Screen.Children.Add(HorizontalLine(index));
+                screen.Children.Add(_painter.VerticalLine(index));
+                screen.Children.Add(_painter.HorizontalLine(index));
             }
         }
 
-        internal void PutRectanglesOn(System.Windows.Controls.Canvas Screen)
+        internal void PutRectanglesOn(Canvas screen)
         {
-            Rectangles.ForEach((i, j, value) =>
+            _rectangles.ForEach((i, j, value) =>
             {
-                CurrentState[i, j] = _random.Next(3) == 0 ? CellState.Live : CellState.Dead;
+                _currentState[i, j] = _random.Next(3) == 0 ? CellState.Live : CellState.Dead;
 
                 value = new Rectangle();
-                Screen.Children.Add(value);
+                screen.Children.Add(value);
                 Canvas.SetLeft(value, i * Config.CellSize);
                 Canvas.SetTop(value, j * Config.CellSize);
                 value.Stroke = Brushes.DarkKhaki;
@@ -71,33 +78,20 @@ namespace Life.Components
                 value.Height = Config.CellSize;
                 value.Visibility = Visibility.Hidden;
 
-                Rectangles[i, j] = value;
+                _rectangles[i, j] = value;
             });
         }
 
-        Line VerticalLine(int columnIndex)
+        void ToggleRectangle(int i, int j, bool visible)
         {
-            return CreateLine(columnIndex, columnIndex, 0, Config.CellSize * Config.FieldSize);
+            _rectangles[i, j].Visibility = visible ? Visibility.Visible : Visibility.Hidden;
         }
 
-        Line HorizontalLine(int rowIndex)
+        void SwapState()
         {
-            return CreateLine(0, Config.CellSize * Config.FieldSize, rowIndex, rowIndex);
-        }
-
-        Line CreateLine(double x1, double x2, double y1, double y2)
-        {
-            return new Line
-            {
-                Stroke = Brushes.DarkBlue,
-                X1 = x1,
-                X2 = x2,
-                Y1 = y1,
-                Y2 = y2,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                StrokeThickness = .2,
-            };
+            var temp = _currentState;
+            _currentState = _nextState;
+            _nextState = temp;
         }
     }
 }
