@@ -39,10 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mathematics\Calculator.cs" />
     <Compile Include="ClassicGame.cs" />
     <Compile Include="ClassicRules.cs" />
     <Compile Include="CellState.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Mathematics\ICalculator.cs" />
     <Compile Include="IField.cs" />
     <Compile Include="IRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

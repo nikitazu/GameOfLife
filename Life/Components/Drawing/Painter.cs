@@ -21,6 +21,9 @@ namespace Life.Components.Drawing
 
         public void Initialize(Canvas canvas)
         {
+            canvas.Width = _config.FieldSize * _config.CellSize;
+            canvas.Height = canvas.Width;
+
             InitializeLines(canvas);
             InitializeRectangles(canvas);
         }

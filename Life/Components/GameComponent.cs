@@ -1,6 +1,7 @@
 ﻿using Life.Components.Configuration;
 using Life.Components.Drawing;
 using Life.Core;
+using Life.Core.Mathematics;
 using System;
 using System.Windows.Controls;
 using System.Windows.Shapes;
@@ -13,6 +14,7 @@ namespace Life.Components
         readonly Painter _painter;
         readonly Game<CellState> _game;
         readonly AutoStepper _autostepper;
+        readonly ICalculator _calc;
 
         IField<CellState> _currentState;
         IField<CellState> _nextState;
@@ -24,6 +26,7 @@ namespace Life.Components
             Painter painter,
             Game<CellState> gameOfLife,
             AutoStepper autostepper,
+            ICalculator calc,
             IField<Rectangle> rectangles,
             IField<CellState> currentState)
         {
@@ -32,6 +35,7 @@ namespace Life.Components
             _painter = painter;
             _game = gameOfLife;
             _autostepper = autostepper;
+            _calc = calc;
 
             _currentState = currentState;
             _nextState = currentState.Copy();
@@ -65,7 +69,8 @@ namespace Life.Components
 
         void RandomizeData()
         {
-            _currentState.ForEach((i, j, value) => _currentState[i, j] = _random.Next(10) == 0 ? CellState.Live : CellState.Dead);
+            int randomMax = _calc.DencityToRandomMaximum(Config.Dencity);
+            _currentState.ForEach((i, j, value) => _currentState[i, j] = _random.Next(randomMax) == 0 ? CellState.Live : CellState.Dead);
         }
 
         void SwapState()

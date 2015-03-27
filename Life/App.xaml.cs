@@ -2,6 +2,7 @@
 using Life.Components.Configuration;
 using Life.Components.Drawing;
 using Life.Core;
+using Life.Core.Mathematics;
 using Microsoft.Practices.Unity;
 using System;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace Life
 
             var container = new UnityContainer()
                 .RegisterInstance<AppConfig>(new AppConfig())
+                .RegisterType<ICalculator, Calculator>()
                 .RegisterType<IField<CellState>, GameField>()
                 .RegisterType<IField<Rectangle>, RenderingField>()
                 .RegisterType<Game<CellState>, ClassicGame>();
