@@ -32,5 +32,10 @@ namespace Life
         {
             _component.ToggleAutoStep();
         }
+
+        void ResetButtonClick(object sender, RoutedEventArgs e)
+        {
+            _component.Reset();
+        }
     }
 }

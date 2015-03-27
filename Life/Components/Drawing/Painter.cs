@@ -25,6 +25,14 @@ namespace Life.Components.Drawing
             InitializeRectangles(canvas);
         }
 
+        public void Reset()
+        {
+            _rectangles.ForEach((i, j, value) =>
+            {
+                value.Visibility = Visibility.Hidden;
+            });
+        }
+
         public void ToggleRectangle(int i, int j, bool visible)
         {
             _rectangles[i, j].Visibility = visible ? Visibility.Visible : Visibility.Hidden;

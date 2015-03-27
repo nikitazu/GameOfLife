@@ -36,10 +36,7 @@ namespace Life.Components
             _currentState = currentState;
             _nextState = currentState.Copy();
 
-            _currentState.ForEach((i, j, value) =>
-            {
-                _currentState[i, j] = _random.Next(10) == 0 ? CellState.Live : CellState.Dead;
-            });
+            RandomizeData();
         }
 
         internal void Initialize(Canvas canvas)
@@ -58,6 +55,17 @@ namespace Life.Components
         internal void ToggleAutoStep()
         {
             _autostepper.Toggle();
+        }
+
+        internal void Reset()
+        {
+            RandomizeData();
+            _painter.Reset();
+        }
+
+        void RandomizeData()
+        {
+            _currentState.ForEach((i, j, value) => _currentState[i, j] = _random.Next(10) == 0 ? CellState.Live : CellState.Dead);
         }
 
         void SwapState()
