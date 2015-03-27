@@ -4,5 +4,123 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
+        <LinearGradientBrush x:Key="ButtonGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="Transparent" Offset="0.0" />
+            <GradientStop Color="SkyBlue" Offset="0.4" />
+            <GradientStop Color="SkyBlue" Offset="0.6" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+
+        <LinearGradientBrush x:Key="ButtonHoverGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="Transparent" Offset="0.0" />
+            <GradientStop Color="LightGreen" Offset="0.5" />
+            <GradientStop Color="Transparent" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <ControlTemplate x:Key="RoundButtonTemplate" TargetType="Button">
+            <!-- ==========================
+                 Visuals
+                 ========================== -->
+            <Grid Width="{TemplateBinding Width}"
+                  Height="{TemplateBinding Height}"
+                  ClipToBounds="True">
+
+                <Rectangle
+                    x:Name="OuterRing"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Stroke="{TemplateBinding Background}" 
+                    RadiusX="40" 
+                    RadiusY="40" 
+                    StrokeThickness="5" 
+                    Fill="Transparent" />
+
+                <Rectangle
+                    x:Name="InnerRing"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Stroke="Transparent" 
+                    StrokeThickness="30" 
+                    Fill="{TemplateBinding Background}" 
+                    RadiusX="40" 
+                    RadiusY="40" />
+
+                <!-- Present Content (text) of the button. -->
+                <DockPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <ContentPresenter
+                        x:Name="ButtonText"
+                        Content="{TemplateBinding Content}"
+                        TextBlock.FontSize="16"
+                        TextBlock.Foreground="Black" />
+                </DockPanel>
+
+            </Grid>
+
+            <!-- ==========================
+                 Interactions
+                 ========================== -->
+            <ControlTemplate.Triggers>
+                
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="OuterRing" Property="Rectangle.Stroke" Value="{StaticResource ButtonHoverGradient}" />
+                    <Setter TargetName="InnerRing" Property="Rectangle.Fill" Value="{StaticResource ButtonHoverGradient}" />
+                    <Setter TargetName="ButtonText" Property="TextBlock.Foreground" Value="DarkBlue" />
+                </Trigger>
+                
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter TargetName="OuterRing" Property="Rectangle.Stroke" Value="{StaticResource ButtonHoverGradient}" />
+                </Trigger>
+                
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="OuterRing"
+                                    Storyboard.TargetProperty="Stroke.GradientStops[0].Offset"
+                                    By="1"
+                                    Duration="0:0:1" />
+
+                                <DoubleAnimation
+                                    Storyboard.TargetName="OuterRing"
+                                    Storyboard.TargetProperty="Stroke.GradientStops[2].Offset"
+                                    By="-1"
+                                    Duration="0:0:1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                
+                <EventTrigger RoutedEvent="Button.Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="InnerRing"
+                                    Storyboard.TargetProperty="Fill.GradientStops[1].Offset"
+                                    By=".5"
+                                    Duration="0:0:0.1"
+                                    AutoReverse="True" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="BorderThickness" Value="0" />
+            
+            <Setter Property="Background" Value="{StaticResource ButtonGradient}" />
+            <Setter Property="Template" Value="{StaticResource RoundButtonTemplate}" />
+        </Style>
+        
     </Application.Resources>
 </Application>

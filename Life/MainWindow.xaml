@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
         Title="Game of Life"
-        Height="900"
-        Width="900">
+        Height="800"
+        Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,11 +18,18 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.RowSpan="3">
-            <Button Click="StepButtonClick">Step</Button>
-            <Button Click="AutoButtonClick">Auto</Button>
             <Button Click="ResetButtonClick">Reset</Button>
+            <Button Click="AutoButtonClick">Auto</Button>
+            <Button Click="StepButtonClick">Step</Button>
         </StackPanel>
-        
-        <Canvas Grid.Column="1" Grid.RowSpan="3" Name="Screen" Height="800" Width="800" />
+
+        <Canvas
+            Name="Screen"
+            Grid.Column="1"
+            Grid.RowSpan="3"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Height="800"
+            Width="800" />
     </Grid>
 </Window>
