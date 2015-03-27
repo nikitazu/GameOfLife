@@ -45,7 +45,7 @@ namespace Life.Components
         internal void Initialize(Canvas canvas)
         {
             _painter.Initialize(canvas);
-            _autostepper.Initialize(this, canvas.Dispatcher);
+            _autostepper.Initialize(MakeStep, canvas.Dispatcher);
         }
 
         internal void MakeStep()

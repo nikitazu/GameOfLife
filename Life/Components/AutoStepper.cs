@@ -1,20 +1,22 @@
-﻿using System;
+﻿using Life.Components.Configuration;
+using System;
 using System.Windows.Threading;
 
 namespace Life.Components
 {
     public class AutoStepper
     {
+        readonly AppConfig _config;
         DispatcherTimer _timer;
 
-        public void Initialize(GameComponent component, Dispatcher dispatcher)
+        public AutoStepper(AppConfig config)
         {
-            EventHandler autoStep = (o, e) =>
-            {
-                component.MakeStep();
-            };
+            _config = config;
+        }
 
-            _timer = new DispatcherTimer(component.Config.AnimationSpeed, DispatcherPriority.Render, autoStep, dispatcher);
+        public void Initialize(Action makeStep, Dispatcher dispatcher)
+        {
+            _timer = new DispatcherTimer(_config.AnimationSpeed, DispatcherPriority.Render, (o, e) => makeStep(), dispatcher);
         }
 
         public void Toggle()
