@@ -10,20 +10,25 @@ namespace Life
     {
         readonly GameComponent _component;
 
+        App CurrentApp
+        {
+            get { return (App)Application.Current; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
 
-            _component = (Application.Current as App).GameComponent;
+            _component = CurrentApp.GameComponent;
             _component.Initialize(Screen);
         }
 
-        private void StepButtonClick(object sender, RoutedEventArgs e)
+        void StepButtonClick(object sender, RoutedEventArgs e)
         {
             _component.MakeStep();
         }
 
-        private void AutoButtonClick(object sender, RoutedEventArgs e)
+        void AutoButtonClick(object sender, RoutedEventArgs e)
         {
             _component.ToggleAutoStep();
         }
