@@ -36,9 +36,14 @@ namespace Life.Components.Drawing
             });
         }
 
-        public void ToggleRectangle(int i, int j, bool visible)
+        public void ToggleRectangle(int i, int j, bool visible, CellMetadata metadata)
         {
-            _rectangles[i, j].Visibility = visible ? Visibility.Visible : Visibility.Hidden;
+            var rectangle = _rectangles[i, j];
+            rectangle.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
+            if (visible && metadata.Generation > 10)
+            {
+                rectangle.Fill = Brushes.Red;
+            }
         }
 
         void InitializeRectangles(Canvas screen)

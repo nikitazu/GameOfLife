@@ -25,6 +25,7 @@ namespace Life
                 .RegisterInstance<AppConfig>(new AppConfig())
                 .RegisterType<ICalculator, Calculator>()
                 .RegisterType<IField<CellState>, GameField>()
+                .RegisterType<IField<CellMetadata>, MetadataField>()
                 .RegisterType<IField<Rectangle>, RenderingField>()
                 .RegisterType<Game<CellState>, ClassicGame>();
 

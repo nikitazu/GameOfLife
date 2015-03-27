@@ -18,6 +18,7 @@ namespace Life.Components
 
         IField<CellState> _currentState;
         IField<CellState> _nextState;
+        IField<CellMetadata> _metadata;
 
         public AppConfig Config { get; private set; }
 
@@ -28,7 +29,8 @@ namespace Life.Components
             AutoStepper autostepper,
             ICalculator calc,
             IField<Rectangle> rectangles,
-            IField<CellState> currentState)
+            IField<CellState> currentState,
+            IField<CellMetadata> metadata)
         {
             Config = config;
 
@@ -39,6 +41,7 @@ namespace Life.Components
 
             _currentState = currentState;
             _nextState = currentState.Copy();
+            _metadata = metadata;
 
             RandomizeData();
         }
@@ -52,7 +55,17 @@ namespace Life.Components
         internal void MakeStep()
         {
             _game.Step(_currentState, _nextState);
-            _nextState.ForEach((i, j, value) => _painter.ToggleRectangle(i, j, value == CellState.Live));
+            _nextState.ForEach((i, j, value) =>
+            {
+                var metadata = _metadata[i, j];
+
+                if (_currentState[i, j] == CellState.Dead && value == CellState.Live)
+                {
+                    metadata.Generation += 1;
+                }
+
+                _painter.ToggleRectangle(i, j, value == CellState.Live, metadata);
+            });
             SwapState();
         }
 
