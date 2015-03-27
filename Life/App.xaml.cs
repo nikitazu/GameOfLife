@@ -21,6 +21,7 @@ namespace Life
             Console.WriteLine("app initialize");
 
             var container = new UnityContainer()
+                .RegisterInstance<AppConfig>(new AppConfig())
                 .RegisterType<IField<CellState>, GameField>()
                 .RegisterType<IField<Rectangle>, RenderingField>()
                 .RegisterType<Game<CellState>, ClassicGame>();
