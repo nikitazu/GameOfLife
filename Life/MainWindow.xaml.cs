@@ -18,8 +18,7 @@ namespace Life
             InitializeComponent();
 
             _component = (Application.Current as App).GameComponent;
-            _component.PutLinesOn(Screen);
-            _component.PutRectanglesOn(Screen);
+            _component.PutGraphicOn(Screen);
 
             EventHandler autoStep = (o, e) =>
             {

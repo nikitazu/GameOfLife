@@ -1,5 +1,6 @@
 ﻿using Life.Components.Configuration;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -7,19 +8,65 @@ namespace Life.Components.Drawing
 {
     public class Painter
     {
-        AppConfig _config;
+        readonly AppConfig _config;
+        readonly RenderingField _rectangles;
 
-        public Painter(AppConfig config)
+        public Painter(
+            AppConfig config,
+            RenderingField field)
         {
             _config = config;
+            _rectangles = field;
         }
 
-        public Line VerticalLine(int columnIndex)
+        public void Initialize(Canvas canvas)
+        {
+            InitializeLines(canvas);
+            InitializeRectangles(canvas);
+        }
+
+        public void ToggleRectangle(int i, int j, bool visible)
+        {
+            _rectangles[i, j].Visibility = visible ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        void InitializeRectangles(Canvas screen)
+        {
+            _rectangles.ForEach((i, j, value) =>
+            {
+                value = new Rectangle
+                {
+                    Stroke = Brushes.DarkKhaki,
+                    Fill = Brushes.DarkKhaki,
+                    Width = _config.CellSize,
+                    Height = _config.CellSize,
+                    Visibility = Visibility.Hidden
+                };
+
+                screen.Children.Add(value);
+                Canvas.SetLeft(value, i * _config.CellSize);
+                Canvas.SetTop(value, j * _config.CellSize);
+                
+                _rectangles[i, j] = value;
+            });
+        }
+
+        void InitializeLines(Canvas screen)
+        {
+            for (int i = 0; i < _config.FieldSize; i++)
+            {
+                var index = i * _config.CellSize;
+                screen.Children.Add(VerticalLine(index));
+                screen.Children.Add(HorizontalLine(index));
+            }
+        }
+
+        Line VerticalLine(int columnIndex)
         {
             return CreateLine(columnIndex, columnIndex, 0, _config.CellSize * _config.FieldSize);
         }
 
-        public Line HorizontalLine(int rowIndex)
+        Line HorizontalLine(int rowIndex)
         {
             return CreateLine(0, _config.CellSize * _config.FieldSize, rowIndex, rowIndex);
         }
