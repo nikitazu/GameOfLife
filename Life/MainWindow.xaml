@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen"
         Title="Game of Life"
-        Height="800"
+        Height="900"
         Width="1000">
     <Grid>
         <Grid.RowDefinitions>

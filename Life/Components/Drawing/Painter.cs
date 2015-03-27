@@ -61,7 +61,7 @@ namespace Life.Components.Drawing
 
         void InitializeLines(Canvas screen)
         {
-            for (int i = 0; i < _config.FieldSize; i++)
+            for (int i = 0; i <= _config.FieldSize; i++)
             {
                 var index = i * _config.CellSize;
                 screen.Children.Add(VerticalLine(index));
