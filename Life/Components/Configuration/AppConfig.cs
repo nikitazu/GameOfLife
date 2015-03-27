@@ -1,5 +1,5 @@
-﻿
-using System;
+﻿using System;
+
 namespace Life.Components.Configuration
 {
     public class AppConfig

@@ -11,13 +11,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.RowSpan="3">
             <Button Click="StepButtonClick">Step</Button>
             <Button Click="AutoButtonClick">Auto</Button>
             <Button Click="ResetButtonClick">Reset</Button>
         </StackPanel>
         
-        <Canvas Grid.Row="1" Name="Screen" Height="800" Width="800" />
+        <Canvas Grid.Column="1" Grid.RowSpan="3" Name="Screen" Height="800" Width="800" />
     </Grid>
 </Window>
