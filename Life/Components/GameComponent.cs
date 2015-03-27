@@ -35,27 +35,20 @@ namespace Life.Components
 
             _currentState.ForEach((i, j, value) =>
             {
-                _currentState[i, j] = _random.Next(3) == 0 ? CellState.Live : CellState.Dead;
+                _currentState[i, j] = _random.Next(10) == 0 ? CellState.Live : CellState.Dead;
             });
         }
 
-        internal void AutoStep()
-        {
-            _game.Step(_currentState, _nextState);
-            _nextState.ForEach((i, j, value) => _painter.ToggleRectangle(i, j, value == CellState.Live));
-            SwapState();
-        }
-
-        internal void ManualStep()
-        {
-            _game.Step(_currentState, _nextState);
-            _nextState.ForEach((i, j, value) => _painter.ToggleRectangle(i, j, value == CellState.Live));
-            SwapState();
-        }
-
-        internal void PutGraphicOn(Canvas canvas)
+        internal void InitializeGraphics(Canvas canvas)
         {
             _painter.Initialize(canvas);
+        }
+
+        internal void MakeStep()
+        {
+            _game.Step(_currentState, _nextState);
+            _nextState.ForEach((i, j, value) => _painter.ToggleRectangle(i, j, value == CellState.Live));
+            SwapState();
         }
 
         void SwapState()

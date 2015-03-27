@@ -18,11 +18,11 @@ namespace Life
             InitializeComponent();
 
             _component = (Application.Current as App).GameComponent;
-            _component.PutGraphicOn(Screen);
+            _component.InitializeGraphics(Screen);
 
             EventHandler autoStep = (o, e) =>
             {
-                _component.AutoStep();
+                _component.MakeStep();
             };
 
             _timer = new DispatcherTimer(_component.Config.AnimationSpeed, DispatcherPriority.Render, autoStep, Dispatcher);
@@ -30,7 +30,7 @@ namespace Life
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _component.ManualStep();
+            _component.MakeStep();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
