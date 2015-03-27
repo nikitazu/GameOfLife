@@ -12,6 +12,7 @@ namespace Life.Components
         readonly Random _random = new Random(123);
         readonly Painter _painter;
         readonly Game<CellState> _game;
+        readonly AutoStepper _autostepper;
 
         IField<CellState> _currentState;
         IField<CellState> _nextState;
@@ -22,6 +23,7 @@ namespace Life.Components
             AppConfig config,
             Painter painter,
             Game<CellState> gameOfLife,
+            AutoStepper autostepper,
             IField<Rectangle> rectangles,
             IField<CellState> currentState)
         {
@@ -29,6 +31,7 @@ namespace Life.Components
 
             _painter = painter;
             _game = gameOfLife;
+            _autostepper = autostepper;
 
             _currentState = currentState;
             _nextState = currentState.Copy();
@@ -39,9 +42,10 @@ namespace Life.Components
             });
         }
 
-        internal void InitializeGraphics(Canvas canvas)
+        internal void Initialize(Canvas canvas)
         {
             _painter.Initialize(canvas);
+            _autostepper.Initialize(this, canvas.Dispatcher);
         }
 
         internal void MakeStep()
@@ -49,6 +53,11 @@ namespace Life.Components
             _game.Step(_currentState, _nextState);
             _nextState.ForEach((i, j, value) => _painter.ToggleRectangle(i, j, value == CellState.Live));
             SwapState();
+        }
+
+        internal void ToggleAutoStep()
+        {
+            _autostepper.Toggle();
         }
 
         void SwapState()

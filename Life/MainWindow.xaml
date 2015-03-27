@@ -18,8 +18,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <Button Grid.Column="0" Click="Button_Click">Step</Button>
-        <Button Grid.Column="1" Click="Button_Click_1">Auto</Button>
+        <Button Grid.Column="0" Click="StepButtonClick">Step</Button>
+        <Button Grid.Column="1" Click="AutoButtonClick">Auto</Button>
         
         <Canvas Grid.Row="1" Grid.ColumnSpan="3" Name="Screen" Height="800" Width="800" />
     </Grid>
