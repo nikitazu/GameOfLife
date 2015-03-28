@@ -15,4 +15,15 @@ namespace Life.Components.Configuration
             });
         }
     }
+
+    public static class MetadataExtensions
+    {
+        public static void Reset(this IField<CellMetadata> metadata)
+        {
+            metadata.ForEach((i, j, value) =>
+            {
+                value.Generation = 0;
+            });
+        }
+    }
 }

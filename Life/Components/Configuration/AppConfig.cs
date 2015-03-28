@@ -8,13 +8,17 @@ namespace Life.Components.Configuration
         public int CellSize { get; private set; }
         public TimeSpan AnimationSpeed { get; private set; }
         public double Dencity { get; private set; }
+        public bool ColorCodeGenerations { get; private set; }
+        public bool ShowGridLines { get; private set; }
 
         public AppConfig()
         {
-            FieldSize = 80 * 2;
-            CellSize = 10 / 2;
-            AnimationSpeed = TimeSpan.FromSeconds(.01);
-            Dencity = .1;
+            FieldSize = 80 * 1;
+            CellSize = 10 / 1;
+            AnimationSpeed = TimeSpan.FromSeconds(.1);
+            Dencity = .2;
+            ColorCodeGenerations = true;
+            ShowGridLines = true;
         }
     }
 }

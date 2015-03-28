@@ -78,6 +78,7 @@ namespace Life.Components
         {
             RandomizeData();
             _painter.Reset();
+            _metadata.Reset();
         }
 
         void RandomizeData()

@@ -1,4 +1,5 @@
 ﻿using Life.Components.Configuration;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,6 +11,7 @@ namespace Life.Components.Drawing
     {
         readonly AppConfig _config;
         readonly RenderingField _rectangles;
+        readonly List<Brush> _brushes;
 
         public Painter(
             AppConfig config,
@@ -17,6 +19,14 @@ namespace Life.Components.Drawing
         {
             _config = config;
             _rectangles = field;
+
+            _brushes = new List<Brush>();
+            for (int i = 1; i <= 10; i++)
+            {
+                byte b = (byte)(i * 20);
+                byte r = (byte)(255 - b);
+                _brushes.Add(new SolidColorBrush(Color.FromRgb(r, 150, b)));
+            }
         }
 
         public void Initialize(Canvas canvas)
@@ -24,7 +34,10 @@ namespace Life.Components.Drawing
             canvas.Width = _config.FieldSize * _config.CellSize;
             canvas.Height = canvas.Width;
 
-            InitializeLines(canvas);
+            if (_config.ShowGridLines)
+            {
+                InitializeGridLines(canvas);
+            }
             InitializeRectangles(canvas);
         }
 
@@ -40,9 +53,12 @@ namespace Life.Components.Drawing
         {
             var rectangle = _rectangles[i, j];
             rectangle.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
-            if (visible && metadata.Generation > 10)
+            if (_config.ColorCodeGenerations && visible)
             {
-                rectangle.Fill = Brushes.Red;
+                rectangle.Fill =
+                    metadata.Generation < _brushes.Count 
+                    ? _brushes[metadata.Generation] 
+                    : _brushes[_brushes.Count - 1];
             }
         }
 
@@ -52,7 +68,6 @@ namespace Life.Components.Drawing
             {
                 value = new Rectangle
                 {
-                    Stroke = Brushes.DarkKhaki,
                     Fill = Brushes.DarkKhaki,
                     Width = _config.CellSize,
                     Height = _config.CellSize,
@@ -67,7 +82,7 @@ namespace Life.Components.Drawing
             });
         }
 
-        void InitializeLines(Canvas screen)
+        void InitializeGridLines(Canvas screen)
         {
             for (int i = 0; i <= _config.FieldSize; i++)
             {
