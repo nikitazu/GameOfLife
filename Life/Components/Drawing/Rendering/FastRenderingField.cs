@@ -8,22 +8,20 @@ namespace Life.Components.Drawing.Rendering
     public class FastRenderingField : TranslatingMatrix<IRenderingFieldItem>, IRenderingField
     {
         readonly AppConfig _config;
-        readonly Lazy<FastRenderer> _renderer;
+        readonly FastRenderer _renderer;
 
         public FastRenderingField(AppConfig config) : base(config.FieldSize)
         {
             _config = config;
-            _renderer = new Lazy<FastRenderer>(() => new FastRenderer(_config));
+            _renderer = new FastRenderer(_config);
         }
 
-        public IRenderingFieldItem CreateItemAt(int i, int j, Canvas screen)
+        public void Initialize(Canvas screen)
         {
-            if (!_renderer.IsValueCreated)
-            {
-                screen.Children.Add(_renderer.Value);
-            }
+            screen.Children.Add(_renderer);
 
-            return new FastRenderingFieldItem(i, j, _renderer.Value);
+            ForEach((i, j, value) =>
+                this[i, j] = new FastRenderingFieldItem(i, j, _renderer));
         }
     }
 }

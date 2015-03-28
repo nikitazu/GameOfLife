@@ -57,11 +57,7 @@ namespace Life.Components.Drawing
 
         void InitializeRectangles(Canvas screen)
         {
-            _renderingField.ForEach((i, j, value) =>
-            {
-                value = _renderingField.CreateItemAt(i, j, screen);
-                _renderingField[i, j] = value;
-            });
+            _renderingField.Initialize(screen);
         }
 
         void InitializeGridLines(Canvas screen)

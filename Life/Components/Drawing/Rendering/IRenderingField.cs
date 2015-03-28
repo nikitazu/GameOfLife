@@ -5,6 +5,6 @@ namespace Life.Components.Drawing.Rendering
 {
     public interface IRenderingField : IField<IRenderingFieldItem>
     {
-        IRenderingFieldItem CreateItemAt(int i, int j, Canvas screen);
+        void Initialize(Canvas screen);
     }
 }

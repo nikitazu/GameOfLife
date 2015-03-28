@@ -16,7 +16,13 @@ namespace Life.Components.Drawing.Rendering
             _config = config;
         }
 
-        public IRenderingFieldItem CreateItemAt(int i, int j, Canvas screen)
+        public void Initialize(Canvas screen)
+        {
+            ForEach((i, j, value) =>
+                this[i, j] = CreateItemAt(i, j, screen));
+        }
+
+        IRenderingFieldItem CreateItemAt(int i, int j, Canvas screen)
         {
             var rectangle = new Rectangle
             {
