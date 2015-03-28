@@ -25,7 +25,9 @@ namespace Life.Components.Drawing
             {
                 byte b = (byte)(i * 20);
                 byte r = (byte)(255 - b);
-                _brushes.Add(new SolidColorBrush(Color.FromRgb(r, 150, b)));
+                var brush = new SolidColorBrush(Color.FromRgb(r, 150, b));
+                brush.Freeze();
+                _brushes.Add(brush);
             }
         }
 
@@ -46,7 +48,6 @@ namespace Life.Components.Drawing
             _renderingField.ForEach((i, j, value) =>
             {
                 value.Hide();
-                //value.Visibility = Visibility.Hidden;
             });
         }
 
@@ -54,7 +55,6 @@ namespace Life.Components.Drawing
         {
             var renderingItem = _renderingField[i, j];
             renderingItem.Toggle(visible);
-            //renderingItem.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
             if (_config.ColorCodeGenerations && visible)
             {
                 var brush = metadata.Generation < _brushes.Count 
@@ -62,7 +62,6 @@ namespace Life.Components.Drawing
                     : _brushes[_brushes.Count - 1];
 
                 renderingItem.FillWith(brush);
-                //renderingItem.Fill = brush;
             }
         }
 
@@ -71,19 +70,6 @@ namespace Life.Components.Drawing
             _renderingField.ForEach((i, j, value) =>
             {
                 value = _renderingField.CreateItemAt(i, j, screen);
-
-                /*value = new Rectangle
-                {
-                    Fill = Brushes.DarkKhaki,
-                    Width = _config.CellSize,
-                    Height = _config.CellSize,
-                    Visibility = Visibility.Hidden
-                };
-
-                screen.Children.Add(value);
-                Canvas.SetLeft(value, i * _config.CellSize);
-                Canvas.SetTop(value, j * _config.CellSize);*/
-                
                 _renderingField[i, j] = value;
             });
         }

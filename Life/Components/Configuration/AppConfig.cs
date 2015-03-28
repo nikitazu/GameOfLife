@@ -13,12 +13,12 @@ namespace Life.Components.Configuration
 
         public AppConfig()
         {
-            FieldSize = 80 * 1;
-            CellSize = 10 / 1;
-            AnimationSpeed = TimeSpan.FromSeconds(.1);
+            FieldSize = 80 * 5;
+            CellSize = 10 / 5;
+            AnimationSpeed = TimeSpan.FromSeconds(.01);
             Dencity = .2;
             ColorCodeGenerations = true;
-            ShowGridLines = true;
+            ShowGridLines = false;
         }
     }
 }

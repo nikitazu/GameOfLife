@@ -25,7 +25,7 @@ namespace Life
                 .RegisterType<ICalculator, Calculator>()
                 .RegisterType<IField<CellState>, GameField>()
                 .RegisterType<IField<CellMetadata>, MetadataField>()
-                .RegisterType<IRenderingField, RenderingField>()
+                .RegisterType<IRenderingField, RenderingFieldFast>()
                 .RegisterType<Game<CellState>, ClassicGame>();
 
             GameComponent = container.Resolve<GameComponent>();
