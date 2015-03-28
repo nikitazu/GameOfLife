@@ -76,6 +76,7 @@
     <Compile Include="Components\Configuration\AppConfig.cs" />
     <Compile Include="Components\Configuration\GameField.cs" />
     <Compile Include="Components\Configuration\MetadataField.cs" />
+    <Compile Include="Components\Drawing\BrushesList.cs" />
     <Compile Include="Components\Drawing\Rendering\FastRenderer.cs" />
     <Compile Include="Components\Drawing\Rendering\FastRenderingFieldItem.cs" />
     <Compile Include="Components\Drawing\Rendering\IRenderingField.cs" />

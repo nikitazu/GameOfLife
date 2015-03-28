@@ -1,6 +1,5 @@
 ﻿using Life.Components.Configuration;
 using Life.Components.Drawing.Rendering;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -12,24 +11,16 @@ namespace Life.Components.Drawing
     {
         readonly AppConfig _config;
         readonly IRenderingField _renderingField;
-        readonly List<Brush> _brushes;
+        readonly BrushesList _brushes;
 
         public Painter(
             AppConfig config,
-            IRenderingField renderingField)
+            IRenderingField renderingField,
+            BrushesList brushes)
         {
             _config = config;
             _renderingField = renderingField;
-
-            _brushes = new List<Brush>();
-            for (int i = 1; i <= 20; i++)
-            {
-                byte b = (byte)(i * 10);
-                byte r = (byte)(255 - b);
-                var brush = new SolidColorBrush(Color.FromRgb(r, 150, b));
-                brush.Freeze();
-                _brushes.Add(brush);
-            }
+            _brushes = brushes;
         }
 
         public void Initialize(Canvas canvas)
@@ -58,9 +49,7 @@ namespace Life.Components.Drawing
             renderingItem.Toggle(visible);
             if (_config.ColorCodeGenerations && visible)
             {
-                var brush = metadata.Generation < _brushes.Count 
-                    ? _brushes[metadata.Generation] 
-                    : _brushes[_brushes.Count - 1];
+                var brush = _brushes.GetBrush(metadata.Generation);
 
                 renderingItem.FillWith(brush);
             }
