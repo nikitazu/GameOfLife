@@ -6,7 +6,6 @@ using Life.Core.Mathematics;
 using Microsoft.Practices.Unity;
 using System;
 using System.Windows;
-using System.Windows.Shapes;
 
 namespace Life
 {
@@ -26,7 +25,7 @@ namespace Life
                 .RegisterType<ICalculator, Calculator>()
                 .RegisterType<IField<CellState>, GameField>()
                 .RegisterType<IField<CellMetadata>, MetadataField>()
-                .RegisterType<IField<Rectangle>, RenderingField>()
+                .RegisterType<IRenderingField, RenderingField>()
                 .RegisterType<Game<CellState>, ClassicGame>();
 
             GameComponent = container.Resolve<GameComponent>();

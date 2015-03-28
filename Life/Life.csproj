@@ -75,6 +75,9 @@
     <Compile Include="Components\Configuration\AppConfig.cs" />
     <Compile Include="Components\Configuration\GameField.cs" />
     <Compile Include="Components\Configuration\MetadataField.cs" />
+    <Compile Include="Components\Drawing\IRenderingField.cs" />
+    <Compile Include="Components\Drawing\IRenderingFieldItem.cs" />
+    <Compile Include="Components\Drawing\RenderingFieldFast.cs" />
     <Compile Include="Components\Drawing\Painter.cs" />
     <Compile Include="Components\Drawing\RenderingField.cs" />
     <Compile Include="Components\GameComponent.cs" />

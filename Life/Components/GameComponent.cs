@@ -28,7 +28,6 @@ namespace Life.Components
             Game<CellState> gameOfLife,
             AutoStepper autostepper,
             ICalculator calc,
-            IField<Rectangle> rectangles,
             IField<CellState> currentState,
             IField<CellMetadata> metadata)
         {

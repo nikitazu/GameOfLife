@@ -10,15 +10,15 @@ namespace Life.Components.Drawing
     public class Painter
     {
         readonly AppConfig _config;
-        readonly RenderingField _rectangles;
+        readonly IRenderingField _renderingField;
         readonly List<Brush> _brushes;
 
         public Painter(
             AppConfig config,
-            RenderingField field)
+            IRenderingField renderingField)
         {
             _config = config;
-            _rectangles = field;
+            _renderingField = renderingField;
 
             _brushes = new List<Brush>();
             for (int i = 1; i <= 10; i++)
@@ -43,30 +43,36 @@ namespace Life.Components.Drawing
 
         public void Reset()
         {
-            _rectangles.ForEach((i, j, value) =>
+            _renderingField.ForEach((i, j, value) =>
             {
-                value.Visibility = Visibility.Hidden;
+                value.Hide();
+                //value.Visibility = Visibility.Hidden;
             });
         }
 
         public void ToggleRectangle(int i, int j, bool visible, CellMetadata metadata)
         {
-            var rectangle = _rectangles[i, j];
-            rectangle.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
+            var renderingItem = _renderingField[i, j];
+            renderingItem.Toggle(visible);
+            //renderingItem.Visibility = visible ? Visibility.Visible : Visibility.Hidden;
             if (_config.ColorCodeGenerations && visible)
             {
-                rectangle.Fill =
-                    metadata.Generation < _brushes.Count 
+                var brush = metadata.Generation < _brushes.Count 
                     ? _brushes[metadata.Generation] 
                     : _brushes[_brushes.Count - 1];
+
+                renderingItem.FillWith(brush);
+                //renderingItem.Fill = brush;
             }
         }
 
         void InitializeRectangles(Canvas screen)
         {
-            _rectangles.ForEach((i, j, value) =>
+            _renderingField.ForEach((i, j, value) =>
             {
-                value = new Rectangle
+                value = _renderingField.CreateItemAt(i, j, screen);
+
+                /*value = new Rectangle
                 {
                     Fill = Brushes.DarkKhaki,
                     Width = _config.CellSize,
@@ -76,9 +82,9 @@ namespace Life.Components.Drawing
 
                 screen.Children.Add(value);
                 Canvas.SetLeft(value, i * _config.CellSize);
-                Canvas.SetTop(value, j * _config.CellSize);
+                Canvas.SetTop(value, j * _config.CellSize);*/
                 
-                _rectangles[i, j] = value;
+                _renderingField[i, j] = value;
             });
         }
 
