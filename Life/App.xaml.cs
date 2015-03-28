@@ -1,9 +1,4 @@
 ﻿using Life.Components;
-using Life.Components.Configuration;
-using Life.Components.Drawing;
-using Life.Core;
-using Life.Core.Mathematics;
-using Microsoft.Practices.Unity;
 using System;
 using System.Windows;
 
@@ -19,17 +14,7 @@ namespace Life
         public App()
         {
             Console.WriteLine("app initialize");
-
-            var container = new UnityContainer()
-                .RegisterInstance<AppConfig>(new AppConfig())
-                .RegisterType<ICalculator, Calculator>()
-                .RegisterType<IField<CellState>, GameField>()
-                .RegisterType<IField<CellMetadata>, MetadataField>()
-                .RegisterType<IRenderingField, RenderingFieldFast>()
-                .RegisterType<Game<CellState>, ClassicGame>();
-
-            GameComponent = container.Resolve<GameComponent>();
-
+            GameComponent = AppBootstrap.InitializeGameComponent();
             Console.WriteLine("app initialize done");
         }
     }

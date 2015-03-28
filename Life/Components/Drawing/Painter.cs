@@ -1,4 +1,5 @@
 ﻿using Life.Components.Configuration;
+using Life.Components.Drawing.Rendering;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,9 +22,9 @@ namespace Life.Components.Drawing
             _renderingField = renderingField;
 
             _brushes = new List<Brush>();
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 20; i++)
             {
-                byte b = (byte)(i * 20);
+                byte b = (byte)(i * 10);
                 byte r = (byte)(255 - b);
                 var brush = new SolidColorBrush(Color.FromRgb(r, 150, b));
                 brush.Freeze();

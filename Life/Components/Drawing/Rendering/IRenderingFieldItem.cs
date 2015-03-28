@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace Life.Components.Drawing
+namespace Life.Components.Drawing.Rendering
 {
     public interface IRenderingFieldItem
     {
